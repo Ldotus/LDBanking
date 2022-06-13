@@ -68,7 +68,7 @@ namespace Bank
         {
             if (tb2.Text.Length > 0)
             {
-
+                //Commiting
             }
             else
             {
