@@ -5,17 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bank"
         mc:Ignorable="d"
-        Title="LoggedIn" Height="450" Width="800" Background="DarkSlateGray">
+        Title="LoggedIn" Height="450" Width="800" Background="Ivory" FontSize="16">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition MinWidth="100" Width="300"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel>
             <TextBlock  FontSize="16" Padding="0 0 0 30" Background="Aquamarine">Transactions</TextBlock >
             <ListView x:Name="TransactionList" Height="100" ></ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBlock Background="LawnGreen" FontFamily="Arial" > Commitments</TextBlock>
+            <TextBlock x:Name="expendeture" Padding="0 20 0 0">Expendeture</TextBlock>
         </StackPanel>
         
     </Grid>
