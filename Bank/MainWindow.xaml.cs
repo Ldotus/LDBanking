@@ -31,7 +31,8 @@ namespace Bank
             if (Tb1.Text == "Enter Account Number")
             {
                 Tb1.Text = null;
-            }else
+            }
+            else
             {
                 Tb1.Text = Tb1.Text;
             }
@@ -42,7 +43,7 @@ namespace Bank
         {
 
               
-            if (Tb1.Text.Length > 0)
+            if (Tb1.Text.Length > 0)    
             {
                 Tb1.Text = Tb1.Text;
             }else
@@ -61,6 +62,7 @@ namespace Bank
             else
             {
                 tb2.Text = tb2.Text;
+               
             }
            
         }
@@ -75,5 +77,7 @@ namespace Bank
                 tb2.Text = "Enter Pin";
             }
         }
+
+       
     }
 }
