@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
             <Label Content="Account Number" FontSize="18" Foreground="AliceBlue" Margin="0 5 0 0" />
-            <TextBox x:Name="Tb1" Height="40" FontSize="25" Margin="0 5 0 0" Text="Enter Account Number" GotFocus="Tb1_GotFocus" LostFocus="Tb1_LostFocus"/>
+            <TextBox x:Name="Tb1" Height="40" FontSize="25" Margin="0 5 0 0" Text="Enter Account Number" GotFocus="Tb1_GotFocus" LostFocus="Tb1_LostFocus"  />
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="3">
             <Label Content="Pin" FontSize="18" Foreground="AliceBlue" Margin=" 0 5 0 0"/>
