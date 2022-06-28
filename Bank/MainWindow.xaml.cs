@@ -50,7 +50,7 @@ namespace Bank
         }
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (tb2.Text == "Pin")
+            if (tb2.Text == "Enter Pin")
             {
                 tb2.Text = null;
             }
@@ -66,7 +66,7 @@ namespace Bank
         {
             if (tb2.Text.Length > 0)
             {
-
+                tb2.Text = tb2.Text;
             }
             else
             {
@@ -76,33 +76,29 @@ namespace Bank
 
 
 
-        private void tb2_TextChanged(object sender, TextChangedEventArgs e)
+        private void tb1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string first4, second4, third4, fourth4;
+        
 
-            if (firstTime)
+            if (Tb1.Text.Length %5  == 4)
             {
+                if (Tb1.Text.Length <= 16)
+                {
+                    Tb1.AppendText("-");
 
-            }
-            if (tb2.Text.Length == 4)
-            {
+                    Tb1.Select(Tb1.Text.Length, Tb1.Text.Length) ;
                 
-                tb2.AppendText("-");
-                tb2.Select(tb2.Text.Length, 0);
+
+                }
+              
             }
-            if (tb2.Text.Length == 9)
-            {
-               
-                tb2.AppendText("-");
-                tb2.Select(tb2.Text.Length, 0);
-            }
-            if(tb2.Text.Length == 14)
-            {
-                tb2.AppendText("-");
-                tb2.Select(tb2.Text.Length, 0);
-            }
+          
        
               
+        }
+        private void tb2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -26,11 +26,13 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
             <Label Content="Account Number" FontSize="18" Foreground="AliceBlue" Margin="0 5 0 0" />
-            <TextBox x:Name="Tb1" Height="40" FontSize="25" Margin="0 5 0 0" Text="Enter Account Number" GotFocus="Tb1_GotFocus" LostFocus="Tb1_LostFocus"  />
+            <TextBox x:Name="Tb1" Height="40" FontSize="25" Margin="0 5 0 0" 
+                     Text="Enter Account Number" GotFocus="Tb1_GotFocus" LostFocus="Tb1_LostFocus" 
+                     TextChanged="tb1_TextChanged" MaxLength="19" />
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="3">
             <Label Content="Pin" FontSize="18" Foreground="AliceBlue" Margin=" 0 5 0 0"/>
-            <TextBox MaxLength="19" x:Name="tb2" Height="40" FontSize="25" Margin=" 0 5 0 0" Text="Pin" LostFocus="tb2_LostFocus" GotFocus="tb2_GotFocus" TextChanged="tb2_TextChanged"></TextBox>
+            <TextBox MaxLength="4" x:Name="tb2" Height="40" FontSize="25" Margin=" 0 5 0 0" Text="Enter Pin" LostFocus="tb2_LostFocus" GotFocus="tb2_GotFocus" TextChanged="tb2_TextChanged"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
             <Button Content="Forgot Password" Height="40" Width="100" Background="Salmon"></Button>
