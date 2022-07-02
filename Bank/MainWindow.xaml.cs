@@ -100,5 +100,16 @@ namespace Bank
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            LoggedIn li = new LoggedIn();
+
+
+            li.ShowDialog();
+                
+            
+        }
     }
 }
