@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Bank
 {
@@ -20,9 +8,12 @@ namespace Bank
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool firstTime;
+
         public MainWindow()
         {
             InitializeComponent();
+            firstTime = true;
         }
 
         private void Tb1_GotFocus(object sender, RoutedEventArgs e)
@@ -34,19 +25,23 @@ namespace Bank
             }
             else
             {
+
                 Tb1.Text = Tb1.Text;
+
+
             }
-            
+
 
         }
         private void Tb1_LostFocus(object sender, RoutedEventArgs e)
         {
 
-              
-            if (Tb1.Text.Length > 0)    
+
+            if (Tb1.Text.Length > 0)
             {
                 Tb1.Text = Tb1.Text;
-            }else
+            }
+            else
             {
                 Tb1.Text = "Enter Account Number";
             }
@@ -55,22 +50,23 @@ namespace Bank
         }
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(tb2.Text == "Enter Pin")
+            if (tb2.Text == "Enter Pin")
             {
                 tb2.Text = null;
             }
             else
             {
                 tb2.Text = tb2.Text;
-               
+                firstTime = false;
+
             }
-           
+
         }
         private void tb2_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tb2.Text.Length > 0)
             {
-                //Commiting
+                tb2.Text = tb2.Text;
             }
             else
             {
@@ -78,6 +74,42 @@ namespace Bank
             }
         }
 
+
+
+        private void tb1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        
+
+            if (Tb1.Text.Length %5  == 4)
+            {
+                if (Tb1.Text.Length <= 16)
+                {
+                    Tb1.AppendText("-");
+
+                    Tb1.Select(Tb1.Text.Length, Tb1.Text.Length) ;
+                
+
+                }
+              
+            }
+          
        
+              
+        }
+        private void tb2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            LoggedIn li = new LoggedIn();
+
+
+            li.ShowDialog();
+                
+            
+        }
     }
 }
