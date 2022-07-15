@@ -14,10 +14,14 @@ namespace Bank.Model
         public string? AmountColour { get; set; }
         public string? EmailAddress { get; set; }
 
-        public string IsMarried { get; set; }
+        public string? IsMarried { get; set; }
         public DateOnly? DoB { get; set; }
-        public double? Balance { get; set; }
-        public double? CommitedAmount { get; set; }
+        public double Balance { get; set; }
+        public double CommitedAmount { get; set; }
+        public double Expenditure { get; set; }
+
+
+
 
         public UserModel()
         {

@@ -8,14 +8,19 @@ namespace Bank
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool firstTime;
+        readonly Transaction t;
 
         public MainWindow()
         {
             InitializeComponent();
-            firstTime = true;
+
+            this.DataContext = t;
+            
+           
         }
 
+        //EVENT HANDLER; when Tb1 gets focus checks 
+        //Removes placeholder text if expression is false
         private void Tb1_GotFocus(object sender, RoutedEventArgs e)
         {
 
@@ -33,6 +38,9 @@ namespace Bank
 
 
         }
+        // EVENT HANDLER; when PIN Textbox loses focuses, checks the length of the text
+        // creates placeholder text if empty other wise stores in value
+
         private void Tb1_LostFocus(object sender, RoutedEventArgs e)
         {
 
@@ -48,6 +56,8 @@ namespace Bank
 
 
         }
+        //EVENT HANDLER; when Tb2 gets focus checks text
+        //
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
             if (tb2.Text == "Enter Pin")
@@ -57,11 +67,13 @@ namespace Bank
             else
             {
                 tb2.Text = tb2.Text;
-                firstTime = false;
+              
 
             }
 
         }
+        // EVENT HANDLER; when PIN Textbox loses focuses, checks the length of the text
+        // creates placeholder text if empty other wise stores in value
         private void tb2_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tb2.Text.Length > 0)
@@ -78,7 +90,9 @@ namespace Bank
 
         private void tb1_TextChanged(object sender, TextChangedEventArgs e)
         {
-        
+        //Code for textchanged event on textbox
+        // as tb length increases after being appended
+        // checks if text length mod 5 is equal to 4
 
             if (Tb1.Text.Length %5  == 4)
             {
@@ -86,8 +100,7 @@ namespace Bank
                 {
                     Tb1.AppendText("-");
 
-                    Tb1.Select(Tb1.Text.Length, Tb1.Text.Length) ;
-                
+                    Tb1.Select(Tb1.Text.Length, Tb1.Text.Length);               
 
                 }
               
@@ -108,7 +121,8 @@ namespace Bank
 
 
             li.ShowDialog();
-                
+
+          
             
         }
     }

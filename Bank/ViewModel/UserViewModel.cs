@@ -1,59 +1,23 @@
 ﻿using Bank.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bank.ViewModel
 {
-    public class UserViewModel
+    public class UserViewModel : INotifyPropertyChanged
     {
-        private UserModel um = new UserModel();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string _firstNameTxt 
+        protected void RaisePropertyChanged (string prop)
         {
-           get { return um.FirstName; }
-           set { um.FirstName = value; }
-        }
-        public string _lastNameTxt
-        {
-            get { return um.LastName; }
-            set { um.LastName = value; }
-        }
-        public string _EmailTxt
-        {
-            get { return um.EmailAddress; }
-            set { um.EmailAddress = value; }
-        }
-        public string _amountColour
-        {
-            get
+            if (PropertyChanged != null)
             {
-                if (um.Balance > 2000)
-                {
-                    return "Blue";
-                }
-                else if (um.Balance > 1000)
-                {
-                    return "Yellow";
-                }
-                return "Red";
-            }
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
 
-        }
-        public bool? IsMarried
-        {
-            get
-            {
-                if (um.IsMarried == "Married")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
             }
         }
     }
