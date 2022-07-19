@@ -9,7 +9,7 @@ namespace Bank.Model
     {
         public int Id { get; }
         public string? Name { get;}
-        public double Amount { get; }
+        public string Amount { get; }
         public TransactionModel? transaction { get; }
         public ExpenditureModel(TransactionModel trans)
         {

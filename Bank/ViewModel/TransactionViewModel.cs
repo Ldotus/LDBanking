@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModel
 {
-    public class TransactionViewModel
+    public class TransactionViewModel 
     {
         TransactionModel tm { get; set; }
 

@@ -9,10 +9,16 @@
 
   <ItemGroup>
     <None Remove="LD.png" />
+    <None Remove="mula.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="LD.png" />
+    <Resource Include="mula.jpg" />
   </ItemGroup>
 
 </Project>

@@ -8,13 +8,12 @@ namespace Bank
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Transaction t;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.DataContext = t;
+            
             
            
         }

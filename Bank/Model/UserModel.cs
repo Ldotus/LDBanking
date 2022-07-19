@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Bank.Model
 {
-  
-    public class UserModel
-    {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? AmountColour { get; set; }
-        public string? EmailAddress { get; set; }
 
-        public string? IsMarried { get; set; }
-        public DateOnly? DoB { get; set; }
-        public double Balance { get; set; }
-        public double CommitedAmount { get; set; }
-        public double Expenditure { get; set; }
+    public class UserModel : INotifyPropertyChanged
+    {
+        private string? _firstName;
+        private string? _lastName;
+        private string? _amountColour;
+        private string? _emailAddress;
+
+        private string? _isMarried;
+        private DateOnly? _doB;
+        private double _balance;
+        private double _commitedAmount;
+        private double _expenditure;
 
 
 
@@ -28,5 +25,44 @@ namespace Bank.Model
 
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void INotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        private void ValidateUser()
+        {
+
+        }
+        private double Balance
+        {
+            get { return _balance; }
+            set
+            {
+                _balance = value;
+                INotifyPropertyChanged(nameof(Balance));
+            }
+        }
+        private double CommitedAmount
+        {
+            get { return _commitedAmount; }
+            set
+            {
+                _commitedAmount = value;
+                INotifyPropertyChanged(nameof(CommitedAmount));
+            }
+        }
+        private double Expendeture
+        {
+            get { return _expenditure; }
+            set
+            {
+                _expenditure = value;
+                INotifyPropertyChanged(nameof(Expendeture));
+            }
+        }
     }
 }

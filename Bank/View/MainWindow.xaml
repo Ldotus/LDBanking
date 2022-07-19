@@ -23,29 +23,32 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         
         <!--Stack Panel for column 1 contains Acc Number -->
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
-            <Label Content="Account Number" FontSize="18" Foreground="AliceBlue" Margin="0 5 0 0" />
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical">
+            <Label Content="Account Number" FontSize="14" Foreground="AliceBlue" Margin="0 5 0 0" />
             <TextBox x:Name="Tb1" Height="40" FontSize="25" Margin="0 5 0 0" 
                      Text="Enter Account Number" GotFocus="Tb1_GotFocus" LostFocus="Tb1_LostFocus" 
                      TextChanged="tb1_TextChanged" MaxLength="19" />
         </StackPanel>
-        <!--Stack Panel set in Column 1, Row 3 for PIN -->
-        <StackPanel Grid.Column="1" Grid.Row="3">
-            <Label Content="Pin" FontSize="18" Foreground="AliceBlue" Margin=" 0 5 0 0"/>
+        <!--Stack Panel set in Column 1, Row 3 for PIN  -->
+        <StackPanel Grid.Column="1" Grid.Row="4">
+            <Label Content="Pin" FontSize="14" Foreground="AliceBlue" Margin=" 0 5 0 0"/>
             <TextBox MaxLength="4" x:Name="tb2" Height="40" FontSize="25" Margin=" 0 5 0 0" Text="Enter Pin" LostFocus="tb2_LostFocus" GotFocus="tb2_GotFocus" TextChanged="tb2_TextChanged"></TextBox>
         </StackPanel>
         <!--Stack Panel set in Column 1, Row 4 for Buttons-->
-        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-            <Button Content="Forgot Password" Height="40" Width="100" Background="Salmon"></Button>
-            <Button Content="Sign In" Height=" 40" Width="100" Background="Salmon" Margin="70 0 0 0 " Click="Button_Click" ></Button>
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+            <Button Content="Forgot Password" Height="30" Width="100" Background="Salmon"></Button>
+            <Button Content="Sign In" Height=" 30" Width="100" Background="Salmon" Margin="70 0 0 0 " Click="Button_Click" ></Button>
         </StackPanel>
         
         <!--Contains Logo/Image set in Column 1 -->
+        <Viewbox Grid.Column="1" Grid.RowSpan="3" Stretch="Fill">
+            <Image Source="/LD.png" Visibility="Visible" Height="250"  />
+        </Viewbox>
        
-        <Image Source="LD.png" Grid.Column="1" Grid.RowSpan="2" Visibility="Visible" Height="250" />
     </Grid>
  
 </Window>

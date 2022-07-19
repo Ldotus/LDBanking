@@ -1,43 +1,46 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Bank.Model
 {
     public class TransactionModel : INotifyPropertyChanged
     {
         private int _id;
-        private string _name;
-        private double _amount;
-        private string _validationMessage;
+        private string? _name;
+        private string? _amount;
+        private string? _validationMessage;
+  
 
         public string ValidationMessage
         {
             get { return _validationMessage; }
-            set { _validationMessage = value; }
+            set { _validationMessage = value; INotifyPropertyChanged(nameof(ValidationMessage)); }
         }
         public int Id
         {
-            get { return _id; }
-            set { _id = value + 1; INotifyPropertyChanged("Id"); }
+            get { return _id  ; }
+            set { _id = value; INotifyPropertyChanged(nameof(Id)); }
         }
-
+       
 
 
         public string Name
         {
             get { return _name; }
-            set { _name = value; INotifyPropertyChanged("Name"); }
+            set { _name = value; INotifyPropertyChanged(nameof(Name)); }
         }
-        public double Amount
+        public string Amount
         {
             get { return _amount; }
-            set { _amount = value; INotifyPropertyChanged("Amount"); }
+            set { _amount = value; INotifyPropertyChanged(nameof(Amount)); }
         }
 
-        public TransactionModel(string name, double amount)
+        public TransactionModel(int id,string name, string amount)
         {
-            Id += 1;
+            this.Id = id;
             this.Name = name;
             this.Amount = amount;
+            
         }
 
         public TransactionModel()
@@ -46,7 +49,7 @@ namespace Bank.Model
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void ValidateTransaction()
+        public string ValidateTransaction()
         {
             if (Name != null)
             {
@@ -58,12 +61,14 @@ namespace Bank.Model
                 {
                     ValidationMessage = "This is too long";
                 }
+                else
+                {
+                    ValidationMessage = "Just Right";
+                }
             }
+            return ValidationMessage;
         }
-        public void addTransction()
-        {
-
-        }
+     
         private void INotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

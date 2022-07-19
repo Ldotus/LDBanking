@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bank.ViewModel"    
-        xmlns:ViewModels="clr-namespace:Bank.MVVMPattern.PatternVersion.ViewModels;assembly=Bank"
+        xmlns:local="clr-namespace:Bank.ViewModel" xmlns:model="clr-namespace:Bank.Model" d:DataContext="{d:DesignInstance Type=model:TransactionModel}"
+        
+        Icon="/Mula.jpg"
         mc:Ignorable="d"
         Title="LoggedIn" Height="450" Width="800" Background="Ivory" FontSize="16">
-    <Window.Resources>
-    
-                 
-            </Window.Resources>
+    <Window.DataContext>
+        <local:UserViewModel/>
+
+    </Window.DataContext>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,6 +35,7 @@
             </ListView>
             <!-- Add Transaction pulls the data-->
                 <Button Click="addTransactionBtn_Click" x:Name="addTransactionBtn" >Add Transaction</Button>
+            <Button Click="deleteTransactionBtn_Click" x:Name="deleteTransactionBtn" >Delete Transaction</Button>
             <StackPanel Orientation="Horizontal" >
                 <Label Content="Place" Margin=" 55 0"/>
                 <Label Content="Amount"/>
@@ -46,17 +48,18 @@
                 
                 
             </StackPanel>
-            <CheckBox Content="Commitment" Margin="20" />
+            <CheckBox Name="CommitmentCheckBox" Content="Commitment" Margin="20" />
+            <Label Name="ErrorMessage" Padding="0 0 0 50" Content="{Binding ValidationMessage}"/>
         </StackPanel>
         <!-- StackPanel for monthly/yearly breakdowns-->
         <!--**Expenditure will base from transaction and supply monthly/yearly commitments -->
         <StackPanel Grid.Column="1">
-            <TextBlock Background="LawnGreen" FontFamily="Arial" TextAlignment="Center"> Commitments:</TextBlock>
+            <TextBlock Background="LawnGreen" FontSize="16" Padding="0 5 0 0 " FontFamily="Arial" TextAlignment="Center"> Commitments:</TextBlock>
             <ListView x:Name="commitmentsListView" Height="200">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateTime}"/>
-                        <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding TransactionType}"/>
+                        <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
@@ -84,8 +87,12 @@
             <Border BorderThickness="2" BorderBrush="Black">
                 <TextBlock x:Name="txtCardNumber" TextAlignment="Center">Card Number</TextBlock>
             </Border>
-            <TextBlock x:Name="txtBalance" TextAlignment="Center" Padding="0 40"> Balace</TextBlock>
-            
+            <TextBlock x:Name="txtBalance" TextAlignment="Center" Padding="0 40" Text="{Binding Balance}"> 0.00</TextBlock>
+            <TextBox x:Name="transactionBox" Width="100" Margin="0 60 0 0 "/>
+            <StackPanel x:Name="BtnStack" Margin=" 0 40 0 0 ">
+                <Button Name="DepositBtn" Content="Deposit" Margin=" 0 20" Click="depositBtnClick"/>
+                <Button Content="Withdraw"/>
+            </StackPanel>
         </StackPanel>
        
 

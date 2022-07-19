@@ -1,4 +1,5 @@
 ﻿using Bank.Model;
+using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModel
 {
-    public class UserViewModel : INotifyPropertyChanged
+    public class UserViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+       UserModel model { get; set; }
 
-        protected void RaisePropertyChanged (string prop)
+        public UserViewModel()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-            }
+            model = new UserModel();    
         }
     }
+
+        
+        
+    
 }
