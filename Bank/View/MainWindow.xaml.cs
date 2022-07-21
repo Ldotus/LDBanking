@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Bank
 {
@@ -12,10 +14,11 @@ namespace Bank
         public MainWindow()
         {
             InitializeComponent();
+            this.Icon = new BitmapImage(new Uri("C:\\Users\\libro\\source\\repos\\Bank\\Bank\\mula.jpg"));
 
-            
-            
-           
+
+
+
         }
 
         //EVENT HANDLER; when Tb1 gets focus checks 

@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.ComponentModel;
 
 namespace Bank.Model
@@ -7,40 +7,40 @@ namespace Bank.Model
     {
         private int _id;
         private string? _name;
-        private string? _amount;
+        private decimal _amount;
         private string? _validationMessage;
-  
 
-        public string ValidationMessage
+
+        public string? ValidationMessage
         {
             get { return _validationMessage; }
             set { _validationMessage = value; INotifyPropertyChanged(nameof(ValidationMessage)); }
         }
         public int Id
         {
-            get { return _id  ; }
+            get { return _id; }
             set { _id = value; INotifyPropertyChanged(nameof(Id)); }
         }
-       
 
 
-        public string Name
+
+        public string? Name
         {
             get { return _name; }
             set { _name = value; INotifyPropertyChanged(nameof(Name)); }
         }
-        public string Amount
+        public decimal Amount
         {
             get { return _amount; }
             set { _amount = value; INotifyPropertyChanged(nameof(Amount)); }
         }
 
-        public TransactionModel(int id,string name, string amount)
+        public TransactionModel(int id, string name, decimal amount)
         {
             this.Id = id;
             this.Name = name;
             this.Amount = amount;
-            
+
         }
 
         public TransactionModel()
@@ -49,7 +49,7 @@ namespace Bank.Model
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string ValidateTransaction()
+        public string? ValidateTransaction()
         {
             if (Name != null)
             {
@@ -68,7 +68,7 @@ namespace Bank.Model
             }
             return ValidationMessage;
         }
-     
+
         private void INotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -77,5 +77,7 @@ namespace Bank.Model
             }
 
         }
+
+
     }
 }

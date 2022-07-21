@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Bank
 {
@@ -24,7 +25,7 @@ namespace Bank
             oc = new ObservableCollection<TransactionModel>();
             oc2 = new ObservableCollection<TransactionModel>();
             this.DataContext = oc;
-
+           
         }
 
         private void deleteTransactionBtn_Click(object sender, RoutedEventArgs e)
@@ -39,10 +40,24 @@ namespace Bank
             }
         }
 
+        public decimal ChangeToDecimal(string stringAmount)
+        {
+            decimal amount = Convert.ToDecimal(stringAmount);
+            stringAmount = amount.ToString("F");
+            decimal finalAmount = Convert.ToDecimal(stringAmount);
+
+            return finalAmount;
+        }
+
         private void addTransactionBtn_Click(object sender, RoutedEventArgs e)
         {
             t.Name = this.AddTransactionPlaceTxtb.Text;
-            t.Amount = this.AddAmountTxtb.Text;
+
+            string str = this.AddAmountTxtb.Text;
+
+            t.Amount = ChangeToDecimal(str);
+
+        
             int id = oc.Count;
             
 
@@ -85,7 +100,47 @@ namespace Bank
         }
         private void depositBtnClick(object sender, RoutedEventArgs e)
         {
+            string str = this.transactionBox.Text;
             
+            if (str.Equals("all"))
+            {
+                user.Balance = decimal.MaxValue;
+                this.txtBalance.Text = user.Balance.ToString();
+            }
+            else
+            {
+                decimal amount = ChangeToDecimal(str);
+
+                user.Balance += amount;
+
+                this.txtBalance.Text = user.Balance.ToString();
+
+            }
+
+        }
+        private void withdrawBtnClick(object sender, RoutedEventArgs e)
+        {
+            string str = this.transactionBox.Text;
+            if (!string.IsNullOrEmpty(str))
+            {
+
+
+                if (str.Equals("all"))
+                {
+                    user.Balance = 0;
+                    this.txtBalance.Text = user.Balance.ToString();
+
+
+                }
+                else
+                {
+                    decimal amount = ChangeToDecimal(str);
+
+                    user.Balance -= amount;
+
+                    this.txtBalance.Text = user.Balance.ToString();
+                }
+            }
         }
     }
 }

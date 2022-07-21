@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bank.ViewModel" xmlns:model="clr-namespace:Bank.Model" d:DataContext="{d:DesignInstance Type=model:TransactionModel}"
         
-        Icon="/Mula.jpg"
+        Icon="/Mula.jpg" 
         mc:Ignorable="d"
         Title="LoggedIn" Height="450" Width="800" Background="Ivory" FontSize="16">
     <Window.DataContext>
@@ -87,11 +87,11 @@
             <Border BorderThickness="2" BorderBrush="Black">
                 <TextBlock x:Name="txtCardNumber" TextAlignment="Center">Card Number</TextBlock>
             </Border>
-            <TextBlock x:Name="txtBalance" TextAlignment="Center" Padding="0 40" Text="{Binding Balance}"> 0.00</TextBlock>
+            <TextBlock x:Name="txtBalance" TextAlignment="Center" Padding="0 40" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
             <TextBox x:Name="transactionBox" Width="100" Margin="0 60 0 0 "/>
             <StackPanel x:Name="BtnStack" Margin=" 0 40 0 0 ">
                 <Button Name="DepositBtn" Content="Deposit" Margin=" 0 20" Click="depositBtnClick"/>
-                <Button Content="Withdraw"/>
+                <Button Name="WithdrawBtn" Click="withdrawBtnClick" Content="Withdraw"/>
             </StackPanel>
         </StackPanel>
        

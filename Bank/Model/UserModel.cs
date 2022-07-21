@@ -13,7 +13,7 @@ namespace Bank.Model
 
         private string? _isMarried;
         private DateOnly? _doB;
-        private double _balance;
+        private decimal _balance;
         private double _commitedAmount;
         private double _expenditure;
 
@@ -37,7 +37,7 @@ namespace Bank.Model
         {
 
         }
-        private double Balance
+        public decimal Balance
         {
             get { return _balance; }
             set
@@ -46,7 +46,7 @@ namespace Bank.Model
                 INotifyPropertyChanged(nameof(Balance));
             }
         }
-        private double CommitedAmount
+        public double CommitedAmount
         {
             get { return _commitedAmount; }
             set
@@ -55,7 +55,7 @@ namespace Bank.Model
                 INotifyPropertyChanged(nameof(CommitedAmount));
             }
         }
-        private double Expendeture
+        public double Expendeture
         {
             get { return _expenditure; }
             set
