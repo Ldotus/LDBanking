@@ -44,16 +44,18 @@
                     
                
             <TextBox Name="AddTransactionPlaceTxtb" Text="Enter Place" TextAlignment="Left" Width="100" Margin="20 0 " GotFocus="tb2_GotFocus" Opacity="0.4"/>
-            <TextBox Name="AddAmountTxtb" Text="MoreText" Width="100" Opacity="0.4"/>
+            <TextBox Name="AddAmountTxtb" Text="" Width="100" GotFocus="tb2_GotFocus" Opacity="0.4"/>
                 
                 
             </StackPanel>
+
             <CheckBox Name="CommitmentCheckBox" Content="Commitment" Margin="20" />
-            <Label Name="ErrorMessage" Padding="0 0 0 50" Content="{Binding ValidationMessage}"/>
+            <Label Name="ErrorMessage"  Padding="40"  Content="{Binding ValidationMessage}"/>
         </StackPanel>
         <!-- StackPanel for monthly/yearly breakdowns-->
         <!--**Expenditure will base from transaction and supply monthly/yearly commitments -->
         <StackPanel Grid.Column="1">
+            
             <TextBlock Background="LawnGreen" FontSize="16" Padding="0 5 0 0 " FontFamily="Arial" TextAlignment="Center"> Commitments:</TextBlock>
             <ListView x:Name="commitmentsListView" Height="200">
                 <ListView.View>

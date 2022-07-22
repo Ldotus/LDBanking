@@ -1,8 +1,9 @@
 ﻿using Bank.Model;
+using Bank.View;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace Bank
 {
@@ -12,9 +13,8 @@ namespace Bank
     ///
     public partial class LoggedIn : Window
     {
-
-        ObservableCollection<TransactionModel> oc;
-        ObservableCollection<TransactionModel> oc2;
+        readonly ObservableCollection<TransactionModel> oc;
+        readonly ObservableCollection<TransactionModel> oc2;
         TransactionModel t;
         UserModel user;
         public LoggedIn()
@@ -25,7 +25,7 @@ namespace Bank
             oc = new ObservableCollection<TransactionModel>();
             oc2 = new ObservableCollection<TransactionModel>();
             this.DataContext = oc;
-           
+
         }
 
         private void deleteTransactionBtn_Click(object sender, RoutedEventArgs e)
@@ -42,11 +42,19 @@ namespace Bank
 
         public decimal ChangeToDecimal(string stringAmount)
         {
-            decimal amount = Convert.ToDecimal(stringAmount);
-            stringAmount = amount.ToString("F");
-            decimal finalAmount = Convert.ToDecimal(stringAmount);
+            if (stringAmount != String.Empty)
+            {
+                decimal amount = Convert.ToDecimal(stringAmount);
+                stringAmount = amount.ToString("F");
+                decimal finalAmount = Convert.ToDecimal(stringAmount);
+                return finalAmount;
+            }
+            else
+            {
+                return 0;
+            }
 
-            return finalAmount;
+
         }
 
         private void addTransactionBtn_Click(object sender, RoutedEventArgs e)
@@ -57,9 +65,9 @@ namespace Bank
 
             t.Amount = ChangeToDecimal(str);
 
-        
+
             int id = oc.Count;
-            
+
 
 
             TransactionModel newT = new TransactionModel(id, t.Name, t.Amount);
@@ -67,17 +75,41 @@ namespace Bank
 
             if (CommitmentCheckBox.IsChecked ?? true)
             {
-                oc2.Add(newT);
-                newT.ValidateTransaction();
-                ErrorMessage.Content = newT.ValidationMessage.ToString();
-                this.commitmentsListView.ItemsSource = oc2;
-            }
-            else
-            {
-                oc.Add(newT);
 
-                this.transactionList.ItemsSource = oc;
+                var transaction = newT.ValidateTransaction();
+                if (transaction != null)
+
+                {
+                    if (transaction == "Just Right")
+                    {
+                        oc2.Add(newT);
+                        ErrorMessage.Content = newT.ValidationMessage;
+                        this.commitmentsListView.ItemsSource = oc2;
+                    }
+
+                    else if (transaction == "This is not long enough")
+                    {
+
+                        ErrorMessage.Content = newT.ValidationMessage;
+
+                        PopUpMessage pum = new PopUpMessage();
+
+                        pum.Content = newT.ValidationMessage;
+
+                        pum.ShowDialog();
+
+
+                    }
+                    else
+                    {
+                        oc.Add(newT);
+
+                        this.transactionList.ItemsSource = oc;
+                    }
+                }
+
             }
+
 
 
 
@@ -86,22 +118,25 @@ namespace Bank
             Console.WriteLine(oc.Count);
 
         }
-        
+
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (this.AddTransactionPlaceTxtb.Text == "Enter Place")
+            TextBox textbox = (TextBox)sender;
+
+            if (textbox.Text.Length >= 3)
             {
-                AddTransactionPlaceTxtb.Text = null;
+                textbox.Text = null;
+
             }
             else
             {
-                AddTransactionPlaceTxtb.Text = AddTransactionPlaceTxtb.Text;
+                textbox.Text = textbox.Text;
             }
         }
         private void depositBtnClick(object sender, RoutedEventArgs e)
         {
             string str = this.transactionBox.Text;
-            
+
             if (str.Equals("all"))
             {
                 user.Balance = decimal.MaxValue;
