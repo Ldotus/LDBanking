@@ -49,7 +49,7 @@ namespace Bank.Model
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string? ValidateTransaction()
+        public string? ValidateTransaction(TransactionModel transaction)
         {
             if (Name != null)
             {

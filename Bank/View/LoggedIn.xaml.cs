@@ -69,53 +69,50 @@ namespace Bank
             int id = oc.Count;
 
 
-
+            
             TransactionModel newT = new TransactionModel(id, t.Name, t.Amount);
 
+            var transaction = t.ValidateTransaction(newT);
 
-            if (CommitmentCheckBox.IsChecked ?? true)
+            if (transaction != null)
+
+                if (CommitmentCheckBox.IsChecked ?? true)
             {
 
-                var transaction = newT.ValidateTransaction();
-                if (transaction != null)
+             
 
                 {
                     if (transaction == "Just Right")
                     {
                         oc2.Add(newT);
-                        ErrorMessage.Content = newT.ValidationMessage;
+                        ErrorMessage.Text = newT.ValidationMessage;
                         this.commitmentsListView.ItemsSource = oc2;
                     }
 
                     else if (transaction == "This is not long enough")
                     {
 
-                        ErrorMessage.Content = newT.ValidationMessage;
+                        ErrorMessage.Text = newT.ValidationMessage;
 
                         PopUpMessage pum = new PopUpMessage();
 
                         pum.Content = newT.ValidationMessage;
 
-                        pum.ShowDialog();
+                        pum.Show();
 
 
                     }
-                    else
-                    {
-                        oc.Add(newT);
-
-                        this.transactionList.ItemsSource = oc;
-                    }
+                    
                 }
 
             }
+            else
+            {
+                oc.Add(newT);
 
-
-
-
-
-
-            Console.WriteLine(oc.Count);
+                this.transactionList.ItemsSource = oc;
+            }
+          
 
         }
 

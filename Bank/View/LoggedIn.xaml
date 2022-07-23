@@ -16,8 +16,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="330"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="200 * "/>
         </Grid.ColumnDefinitions>
         <!-- Stack Panel for transactions-->
         <StackPanel>
@@ -45,12 +45,15 @@
                
             <TextBox Name="AddTransactionPlaceTxtb" Text="Enter Place" TextAlignment="Left" Width="100" Margin="20 0 " GotFocus="tb2_GotFocus" Opacity="0.4"/>
             <TextBox Name="AddAmountTxtb" Text="" Width="100" GotFocus="tb2_GotFocus" Opacity="0.4"/>
-                
-                
+
+                <StackPanel>
+                    <DatePicker IsTodayHighlighted="True" Background="DodgerBlue" Padding="0"  />
+                </StackPanel>
             </StackPanel>
 
+
             <CheckBox Name="CommitmentCheckBox" Content="Commitment" Margin="20" />
-            <Label Name="ErrorMessage"  Padding="40"  Content="{Binding ValidationMessage}"/>
+            <TextBlock Name="ErrorMessage"  Padding="40"  Text="{Binding ValidationMessage}"/>
         </StackPanel>
         <!-- StackPanel for monthly/yearly breakdowns-->
         <!--**Expenditure will base from transaction and supply monthly/yearly commitments -->
