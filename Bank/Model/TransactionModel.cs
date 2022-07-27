@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Bank.Model
@@ -6,11 +7,50 @@ namespace Bank.Model
     public class TransactionModel : INotifyPropertyChanged
     {
         private int _id;
-        private string? _name;
+        private string? _place;
         private decimal _amount;
         private string? _validationMessage;
+        private bool? _Success;
+        private DateTime? _dt;
+        private string? _transactionType;
+       
+        private ObservableCollection<string?> _comboContent { get; set; }
+
+        public TransactionModel(int id, string? place, decimal amount, DateTime? dt,string? transactionType)
+        {
+            Id = id;
+            Place = place;
+            Amount = amount;
+            Dt = dt;
+            TransactionType = transactionType;
+
+            
+        }
+
+        public TransactionModel()
+        {
+            ComboContent = new ObservableCollection<string?>
+            {
+                "Food",
+                "Luxury",
+                "Bills",
+                "Unexpected"
+            };
+        }
 
 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public string? TransactionType
+        {
+            get { return _transactionType; }
+            set { _transactionType = value; INotifyPropertyChanged(nameof(TransactionType)); }
+        }
+        public ObservableCollection<string?> ComboContent
+        {
+            get { return _comboContent; }
+            set {   _comboContent = value; INotifyPropertyChanged(nameof(ComboContent)); }
+        }
         public string? ValidationMessage
         {
             get { return _validationMessage; }
@@ -22,12 +62,16 @@ namespace Bank.Model
             set { _id = value; INotifyPropertyChanged(nameof(Id)); }
         }
 
-
-
-        public string? Name
+        public bool? Success
         {
-            get { return _name; }
-            set { _name = value; INotifyPropertyChanged(nameof(Name)); }
+            get { return _Success; }
+            set { _Success = value; INotifyPropertyChanged(nameof(Success)); }
+        }
+
+        public string? Place
+        {
+            get { return _place; }
+            set { _place = value; INotifyPropertyChanged(nameof(Place)); }
         }
         public decimal Amount
         {
@@ -35,34 +79,32 @@ namespace Bank.Model
             set { _amount = value; INotifyPropertyChanged(nameof(Amount)); }
         }
 
-        public TransactionModel(int id, string name, decimal amount)
+        public DateTime? Dt
         {
-            this.Id = id;
-            this.Name = name;
-            this.Amount = amount;
-
+            get { return _dt; }
+            set { _dt = value; INotifyPropertyChanged(nameof(Dt)); }
         }
 
-        public TransactionModel()
-        {
-        }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+
 
         public string? ValidateTransaction(TransactionModel transaction)
         {
-            if (Name != null)
+            if (Place != null)
             {
-                if (Name.Trim().Length <= 1)
+                if (Place.Trim().Length <= 1 || Amount <= 0)
                 {
-                    ValidationMessage = "This is not long enough";
+                    transaction.Success = false;
+                    ValidationMessage = "Not Long Enough";
                 }
-                else if (Name.Trim().Length >= 20)
+                else if (Place.Trim().Length >= 20)
                 {
+                    transaction.Success = false;
                     ValidationMessage = "This is too long";
                 }
                 else
                 {
+                    transaction.Success = true;
                     ValidationMessage = "Just Right";
                 }
             }

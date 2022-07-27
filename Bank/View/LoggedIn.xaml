@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bank.ViewModel" xmlns:model="clr-namespace:Bank.Model" d:DataContext="{d:DesignInstance Type=model:TransactionModel}"
+        xmlns:local="clr-namespace:Bank.ViewModel" 
+        xmlns:model="clr-namespace:Bank.Model" 
+        d:DataContext="{d:DesignInstance Type=model:TransactionModel}"
         
         Icon="/Mula.jpg" 
         mc:Ignorable="d"
-        Title="LoggedIn" Height="450" Width="800" Background="Ivory" FontSize="16">
+        WindowStartupLocation="CenterScreen"
+        Title="LoggedIn" Height="580" Width="1000" Background="Ivory" FontSize="16">
     <Window.DataContext>
         <local:UserViewModel/>
 
@@ -27,33 +30,42 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Place}"/>
+                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
             <!-- Add Transaction pulls the data-->
-                <Button Click="addTransactionBtn_Click" x:Name="addTransactionBtn" >Add Transaction</Button>
-            <Button Click="deleteTransactionBtn_Click" x:Name="deleteTransactionBtn" >Delete Transaction</Button>
+               
             <StackPanel Orientation="Horizontal" >
                 <Label Content="Place" Margin=" 55 0"/>
                 <Label Content="Amount"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                    
-               
-            <TextBox Name="AddTransactionPlaceTxtb" Text="Enter Place" TextAlignment="Left" Width="100" Margin="20 0 " GotFocus="tb2_GotFocus" Opacity="0.4"/>
-            <TextBox Name="AddAmountTxtb" Text="" Width="100" GotFocus="tb2_GotFocus" Opacity="0.4"/>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
 
-                <StackPanel>
-                    <DatePicker IsTodayHighlighted="True" Background="DodgerBlue" Padding="0"  />
-                </StackPanel>
+
+                <TextBox Name="AddTransactionPlaceTxtb" Text="Enter Place" TextAlignment="Left" Width="100" Margin="20 0 " GotFocus="tb2_GotFocus" Opacity="0.4"/>
+                <TextBox Name="AddAmountTxtb" Text="" Width="100" GotFocus="tb2_GotFocus" Opacity="0.4"/>
+
+
             </StackPanel>
-
-
-            <CheckBox Name="CommitmentCheckBox" Content="Commitment" Margin="20" />
-            <TextBlock Name="ErrorMessage"  Padding="40"  Text="{Binding ValidationMessage}"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <DatePicker Name="DateTimeBox" IsTodayHighlighted="True" Background="Ivory" Padding="0" Height="25" Width="200"  />
+                    <ComboBox Name="CategoryComboBox"  ItemsSource="{Binding ComboContent}" Margin=" 20 20" SelectedItem="Food"/>
+                </StackPanel>
+               
+                <CheckBox Name="CommitmentCheckBox"  Content="Commitment" Margin="0 20 " FontSize="14"  HorizontalAlignment="Left"/>
+                <!--Add and Delete Transaction Buttons-->
+                <StackPanel>
+                    <Button Click="addTransaction" x:Name="addTransactionBtn" >Add Transaction</Button>
+                    <Button Click="deleteTransactionBtn_Click" x:Name="deleteTransactionBtn" Margin="0 20" >Delete Transaction</Button>
+                </StackPanel>
+                
+            </StackPanel>
+           
         </StackPanel>
         <!-- StackPanel for monthly/yearly breakdowns-->
         <!--**Expenditure will base from transaction and supply monthly/yearly commitments -->
@@ -63,25 +75,31 @@
             <ListView x:Name="commitmentsListView" Height="200">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateTime}"/>
-                        <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}"/>
+                        <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding Place}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
-                        <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
+                        <GridViewColumn Header="Transaction Type" DisplayMemberBinding="{Binding TransactionType}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
             <!-- Column headers for Expenditure -->
             <TextBlock x:Name="expendeture" Padding="0 0 0 0" TextAlignment="Center" Background="Lavender">Expendeture:</TextBlock>
-            <ListView x:Name="expendetureList" Height="200">
+            <Menu>
+                <MenuItem Header="Weekly" Click="ReorganiseExpendetureWeeklyClick"/>
+                <MenuItem Header="Monthly" Click="ReorganiseExpendetureMonthlyClick"/>
+                <MenuItem Header="Yearly" Click="ReorganiseExpendetureYearlyClick"/>
+            </Menu>
+            <ListView x:Name="expendetureList" Height="300">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Time" DisplayMemberBinding="{Binding DateTime}"/>
+                        <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Dt}"/>
                         <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding TransactionType}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
+           
         </StackPanel>
         
         <!-- Stack panel for card details-->
@@ -92,7 +110,14 @@
             <Border BorderThickness="2" BorderBrush="Black">
                 <TextBlock x:Name="txtCardNumber" TextAlignment="Center">Card Number</TextBlock>
             </Border>
-            <TextBlock x:Name="txtBalance" TextAlignment="Center" Padding="0 40" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
+            <StackPanel >
+                <TextBlock Text="Standard Balance" Padding="0 10 0 0" FontSize="10" Foreground="DimGray" TextAlignment="Center"/>
+                <TextBlock x:Name="txtBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="After Commitment Balance" TextAlignment="Center" TextWrapping="Wrap" Foreground="DimGray" FontSize="10"/>
+                <TextBlock x:Name="txtAfterCommitmentsBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
+            </StackPanel>
             <TextBox x:Name="transactionBox" Width="100" Margin="0 60 0 0 "/>
             <StackPanel x:Name="BtnStack" Margin=" 0 40 0 0 ">
                 <Button Name="DepositBtn" Content="Deposit" Margin=" 0 20" Click="depositBtnClick"/>

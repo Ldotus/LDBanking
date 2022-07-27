@@ -14,7 +14,7 @@ namespace Bank.Model
         public ExpenditureModel(TransactionModel trans)
         {
             Amount = trans.Amount;
-            Name = trans.Name;
+            Name = trans.Place;
             Id = trans.Id;
         }
     }

@@ -1,7 +1,8 @@
 ﻿using Bank.Model;
-using Bank.View;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,28 +14,32 @@ namespace Bank
     ///
     public partial class LoggedIn : Window
     {
-        readonly ObservableCollection<TransactionModel> oc;
-        readonly ObservableCollection<TransactionModel> oc2;
+        readonly ObservableCollection<TransactionModel> TransactionObservableCollection;
+        private ObservableCollection<TransactionModel> ExpenditureObservableCollection;
         TransactionModel t;
         UserModel user;
+        private List<TransactionModel> _commitmentList;
         public LoggedIn()
         {
             InitializeComponent();
             t = new TransactionModel();
             user = new UserModel();
-            oc = new ObservableCollection<TransactionModel>();
-            oc2 = new ObservableCollection<TransactionModel>();
-            this.DataContext = oc;
+            TransactionObservableCollection = new ObservableCollection<TransactionModel>();
+            ExpenditureObservableCollection = new ObservableCollection<TransactionModel>();
+
+            _commitmentList = new List<TransactionModel>();
+
+            DataContext = t;
 
         }
 
         private void deleteTransactionBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (oc.Count > 0)
+            if (TransactionObservableCollection.Count > 0)
             {
                 if (transactionList.SelectedIndex != -1)
                 {
-                    oc.RemoveAt(transactionList.SelectedIndex);
+                    TransactionObservableCollection.RemoveAt(transactionList.SelectedIndex);
                 }
 
             }
@@ -56,66 +61,165 @@ namespace Bank
 
 
         }
-
-        private void addTransactionBtn_Click(object sender, RoutedEventArgs e)
+        private void CheckFuturePurchase()
         {
-            t.Name = this.AddTransactionPlaceTxtb.Text;
+            if (DateTimeBox.SelectedDate >= DateTime.Now)
+            {
+                MessageBox.Show("This date is in the future, do you want to continue to add it?", "Future Purchase");
+            }
+        }
+        private void addTransaction(object sender, RoutedEventArgs e)
+        {
+            //checks Name checkbox for text
+            if (AddTransactionPlaceTxtb.Text.Length >= 4)
+            {
+                decimal TransactionAmount = Convert.ToDecimal(AddAmountTxtb.Text);
+
+                //checks the amount is more than 0.01
+                //add as constant /**/
+                if (TransactionAmount >= 0.01m)
+                {
+
+                    /*checks a date has been specified before
+                    class instantion occurs */
+
+                    if (DateTimeBox.SelectedDate != null)
+                    {
+                        CheckFuturePurchase();
+
+                        //uses the input of the textboxes & date
+                        if (CategoryComboBox.SelectedIndex == -1)
+                        {
+                            t.TransactionType = "Unexpected";
+                        }
+                        else
+                        {
+                            t.TransactionType = CategoryComboBox.SelectedItem.ToString();
+                        }
+                        string place = AddTransactionPlaceTxtb.Text;
+                        string amount = AddAmountTxtb.Text;
+
+                        /* 
+                         */
+                        t.Amount = ChangeToDecimal(amount);
+                        int id = TransactionObservableCollection.Count;
+
+                        t.Dt = DateTimeBox.SelectedDate.Value.Date;
+
+
+                        //  string? tt = CategoryComboBox.SelectedItem.ToString();
+
+                        TransactionModel newT = new TransactionModel(id, place, t.Amount, t.Dt, t.TransactionType);
+
+                        if (CommitmentCheckBox.IsChecked == true)
+                        {
+                            ExpenditureObservableCollection.Add(newT);
+
+                            commitmentsListView.ItemsSource = ExpenditureObservableCollection;
+                            expendetureList.ItemsSource = ExpenditureObservableCollection;
+                            _commitmentList.Add(newT);
+                            UpdateCommitmentBalance();
+                        }
+                        else
+                        {
+                            TransactionObservableCollection.Add(newT);
+                            transactionList.ItemsSource = TransactionObservableCollection;
+                            expendetureList.ItemsSource = TransactionObservableCollection;
+                        }
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Ensure all Fiels are Filled in", "Something went wrong");
+                }
+
+            }
+        }
+        private void UpdateCommitmentBalance()
+        {
+
+
+            if (_commitmentList.Count > 0)
+            {
+                decimal sumOfCommitments = 0;
+
+                foreach (var commitment in _commitmentList)
+                {
+                    string commitedAmount = commitment.Amount.ToString();
+
+                    decimal decAmount = ChangeToDecimal(commitedAmount);
+
+                    sumOfCommitments += decAmount;
+
+
+                }
+                decimal balance = ChangeToDecimal(txtBalance.Text);
+
+                balance -= sumOfCommitments;
+
+
+                //  string balanceAfterCommitments = Convert.ToString(balance); ;
+
+                txtAfterCommitmentsBalance.Text = Convert.ToString(balance);
+            }
+        }
+      /*  private void addTransactionBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            t.Place = this.AddTransactionPlaceTxtb.Text;
 
             string str = this.AddAmountTxtb.Text;
 
             t.Amount = ChangeToDecimal(str);
 
 
-            int id = oc.Count;
+            string? selectedDate = DateTimeBox.SelectedDate.Value.Date.ToShortDateString();
 
 
-            
-            TransactionModel newT = new TransactionModel(id, t.Name, t.Amount);
+            int id = TransactionObservableCollection.Count;
 
-            var transaction = t.ValidateTransaction(newT);
 
-            if (transaction != null)
+            TransactionModel newT = new TransactionModel(id, t.Place, t.Amount, selectedDate, "TT");
 
-                if (CommitmentCheckBox.IsChecked ?? true)
+            string? val = t.ValidateTransaction(newT);
+
+            if (newT.Success == true)
             {
 
-             
+                newT.ValidationMessage = val;
 
+                if (newT.ValidationMessage == "Just Right")
                 {
-                    if (transaction == "Just Right")
+                    if (CommitmentCheckBox.IsChecked ?? true)
                     {
-                        oc2.Add(newT);
-                        ErrorMessage.Text = newT.ValidationMessage;
-                        this.commitmentsListView.ItemsSource = oc2;
-                    }
+                        ExpenditureObservableCollection.Add(newT);
 
-                    else if (transaction == "This is not long enough")
-                    {
-
-                        ErrorMessage.Text = newT.ValidationMessage;
-
-                        PopUpMessage pum = new PopUpMessage();
-
-                        pum.Content = newT.ValidationMessage;
-
-                        pum.Show();
-
+                        commitmentsListView.ItemsSource = ExpenditureObservableCollection;
 
                     }
-                    
+                    else
+                    {
+                        oc.Add(newT);
+                        transactionList.ItemsSource = oc;
+                    }
+
                 }
 
-            }
-            else
-            {
-                oc.Add(newT);
 
-                this.transactionList.ItemsSource = oc;
             }
-          
+            else if (newT.Success == false)
+            {
+
+                MessageBox.Show("Transaction Failed, Ensure all fields are filled " + val, "Something Went Wrong");
+
+
+            }
+
+
 
         }
-
+      */
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
@@ -147,6 +251,8 @@ namespace Bank
 
                 this.txtBalance.Text = user.Balance.ToString();
 
+                UpdateCommitmentBalance();
+
             }
 
         }
@@ -173,6 +279,31 @@ namespace Bank
                     this.txtBalance.Text = user.Balance.ToString();
                 }
             }
+        }
+
+        private void ReorganiseExpendetureWeeklyClick(object sender, RoutedEventArgs e)
+        {
+            
+
+            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
+
+            expendetureList.ItemsSource = lastWeekTransactions;
+        }
+
+        private void ReorganiseExpendetureMonthlyClick(object sender, RoutedEventArgs e)
+        {
+
+            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
+
+            expendetureList.ItemsSource = lastWeekTransactions;
+        }
+
+        private void ReorganiseExpendetureYearlyClick(object sender, RoutedEventArgs e)
+        {
+
+            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddYears(-1)).ToList();
+
+            expendetureList.ItemsSource = lastWeekTransactions;
         }
     }
 }

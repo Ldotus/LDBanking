@@ -18,7 +18,7 @@ namespace Bank.ViewModel
 
         void ValidateTransaction()
         {
-            tm.ValidateTransaction();
+            tm.ValidateTransaction(tm);
         }
     }
 }
