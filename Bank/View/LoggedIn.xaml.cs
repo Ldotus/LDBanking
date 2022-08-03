@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Bank
 {
@@ -15,7 +16,7 @@ namespace Bank
     public partial class LoggedIn : Window
     {
         readonly ObservableCollection<TransactionModel> TransactionObservableCollection;
-        private ObservableCollection<TransactionModel> ExpenditureObservableCollection;
+        private ObservableCollection<TransactionModel> CommitmentObservableCollection;
         TransactionModel t;
         UserModel user;
         private List<TransactionModel> _commitmentList;
@@ -25,8 +26,9 @@ namespace Bank
             t = new TransactionModel();
             user = new UserModel();
             TransactionObservableCollection = new ObservableCollection<TransactionModel>();
-            ExpenditureObservableCollection = new ObservableCollection<TransactionModel>();
+            CommitmentObservableCollection = new ObservableCollection<TransactionModel>();
 
+            
             _commitmentList = new List<TransactionModel>();
 
             DataContext = t;
@@ -40,8 +42,9 @@ namespace Bank
                 if (transactionList.SelectedIndex != -1)
                 {
                     TransactionObservableCollection.RemoveAt(transactionList.SelectedIndex);
+                    
                 }
-
+                
             }
         }
 
@@ -65,7 +68,7 @@ namespace Bank
         {
             if (DateTimeBox.SelectedDate >= DateTime.Now)
             {
-                MessageBox.Show("This date is in the future, do you want to continue to add it?", "Future Purchase");
+                MessageBox.Show("The Date you have provided is in the future.", "Future Purchase");
             }
         }
         private void addTransaction(object sender, RoutedEventArgs e)
@@ -113,10 +116,10 @@ namespace Bank
 
                         if (CommitmentCheckBox.IsChecked == true)
                         {
-                            ExpenditureObservableCollection.Add(newT);
+                            CommitmentObservableCollection.Add(newT);
 
-                            commitmentsListView.ItemsSource = ExpenditureObservableCollection;
-                            expendetureList.ItemsSource = ExpenditureObservableCollection;
+                            commitmentsListView.ItemsSource = CommitmentObservableCollection;
+                           // expendetureList.ItemsSource = CommitmentObservableCollection;
                             _commitmentList.Add(newT);
                             UpdateCommitmentBalance();
                         }
@@ -124,8 +127,12 @@ namespace Bank
                         {
                             TransactionObservableCollection.Add(newT);
                             transactionList.ItemsSource = TransactionObservableCollection;
-                            expendetureList.ItemsSource = TransactionObservableCollection;
+                            UpdateTransactionalBalance();
+                           // expendetureList.ItemsSource = TransactionObservableCollection;
                         }
+                        var output = new ObservableCollection<TransactionModel>(CommitmentObservableCollection.Concat(TransactionObservableCollection));
+
+                        expendetureList.ItemsSource = output;
                     }
 
                 }
@@ -136,15 +143,41 @@ namespace Bank
 
             }
         }
+        private void UpdateTransactionalBalance()
+        {
+          if (TransactionObservableCollection.Count > 0)
+            {
+                decimal sumOfTransactions = 0;
+                foreach (var transaction in TransactionObservableCollection)
+                {
+                    string transactionalAmount = transaction.Amount.ToString();
+                    decimal decAmount = ChangeToDecimal(transactionalAmount);
+
+                    sumOfTransactions += decAmount;
+
+                }
+                decimal balance = ChangeToDecimal(txtBalance.Text);
+                balance -= sumOfTransactions;
+                if (balance < 0)
+                {
+                    txtAfterTransactionalBalance.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    txtAfterTransactionalBalance.Foreground = Brushes.GreenYellow;
+                }
+                txtAfterTransactionalBalance.Text = balance.ToString();
+            }
+        }
         private void UpdateCommitmentBalance()
         {
 
 
-            if (_commitmentList.Count > 0)
+            if (CommitmentObservableCollection.Count > 0)
             {
                 decimal sumOfCommitments = 0;
 
-                foreach (var commitment in _commitmentList)
+                foreach (var commitment in CommitmentObservableCollection)
                 {
                     string commitedAmount = commitment.Amount.ToString();
 
@@ -157,9 +190,15 @@ namespace Bank
                 decimal balance = ChangeToDecimal(txtBalance.Text);
 
                 balance -= sumOfCommitments;
+                if (balance < 0)
+                {
 
-
-                //  string balanceAfterCommitments = Convert.ToString(balance); ;
+                    txtAfterCommitmentsBalance.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    txtAfterCommitmentsBalance.Foreground = Brushes.GreenYellow;
+                }
 
                 txtAfterCommitmentsBalance.Text = Convert.ToString(balance);
             }
@@ -193,9 +232,9 @@ namespace Bank
                 {
                     if (CommitmentCheckBox.IsChecked ?? true)
                     {
-                        ExpenditureObservableCollection.Add(newT);
+                        CommitmentObservableCollection.Add(newT);
 
-                        commitmentsListView.ItemsSource = ExpenditureObservableCollection;
+                        commitmentsListView.ItemsSource = CommitmentObservableCollection;
 
                     }
                     else
@@ -252,6 +291,7 @@ namespace Bank
                 this.txtBalance.Text = user.Balance.ToString();
 
                 UpdateCommitmentBalance();
+                UpdateTransactionalBalance();
 
             }
 
@@ -277,6 +317,9 @@ namespace Bank
                     user.Balance -= amount;
 
                     this.txtBalance.Text = user.Balance.ToString();
+
+                    UpdateCommitmentBalance();
+                    UpdateTransactionalBalance();
                 }
             }
         }
@@ -284,26 +327,31 @@ namespace Bank
         private void ReorganiseExpendetureWeeklyClick(object sender, RoutedEventArgs e)
         {
             
+            var lastWeekCommitments = CommitmentObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
+            var lastWeekTransactions = TransactionObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
 
-            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
-
+            var total = new ObservableCollection<TransactionModel>(lastWeekTransactions.Concat(lastWeekCommitments));
             expendetureList.ItemsSource = lastWeekTransactions;
         }
 
         private void ReorganiseExpendetureMonthlyClick(object sender, RoutedEventArgs e)
         {
 
-            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
+            var lastMonthCommitment = CommitmentObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
+            var lastMonthTransactions = TransactionObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
 
-            expendetureList.ItemsSource = lastWeekTransactions;
+            var total = new ObservableCollection<TransactionModel>(lastMonthCommitment.Concat(lastMonthTransactions));
+            expendetureList.ItemsSource = total;
         }
 
         private void ReorganiseExpendetureYearlyClick(object sender, RoutedEventArgs e)
         {
 
-            var lastWeekTransactions = ExpenditureObservableCollection.Where(t => t.Dt > DateTime.Now.AddYears(-1)).ToList();
+            var lastYearCommitment = CommitmentObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
+            var lastYearTransactions = TransactionObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
 
-            expendetureList.ItemsSource = lastWeekTransactions;
+            var total = new ObservableCollection<TransactionModel>(lastYearCommitment.Concat(lastYearTransactions));
+            expendetureList.ItemsSource = lastYearTransactions;
         }
     }
 }

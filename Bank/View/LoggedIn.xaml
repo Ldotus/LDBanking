@@ -10,7 +10,7 @@
         Icon="/Mula.jpg" 
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="LoggedIn" Height="580" Width="1000" Background="Ivory" FontSize="16">
+        Title="LoggedIn" Height="580" Width="1100" Background="Ivory" FontSize="16">
     <Window.DataContext>
         <local:UserViewModel/>
 
@@ -20,7 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="330"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="200 * "/>
+            <ColumnDefinition Width="400 *"/>
         </Grid.ColumnDefinitions>
         <!-- Stack Panel for transactions-->
         <StackPanel>
@@ -53,11 +53,11 @@
             </StackPanel>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" >
-                    <DatePicker Name="DateTimeBox" IsTodayHighlighted="True" Background="Ivory" Padding="0" Height="25" Width="200"  />
+                    <DatePicker Name="DateTimeBox" IsTodayHighlighted="True" Background="Ivory" Margin="10 0 10 0" Height="25" Width="200"  />
                     <ComboBox Name="CategoryComboBox"  ItemsSource="{Binding ComboContent}" Margin=" 20 20" SelectedItem="Food"/>
                 </StackPanel>
                
-                <CheckBox Name="CommitmentCheckBox"  Content="Commitment" Margin="0 20 " FontSize="14"  HorizontalAlignment="Left"/>
+                <CheckBox Name="CommitmentCheckBox"  Content="Commitment" Margin="10 " FontSize="14"  HorizontalAlignment="Left"/>
                 <!--Add and Delete Transaction Buttons-->
                 <StackPanel>
                     <Button Click="addTransaction" x:Name="addTransactionBtn" >Add Transaction</Button>
@@ -117,6 +117,8 @@
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="After Commitment Balance" TextAlignment="Center" TextWrapping="Wrap" Foreground="DimGray" FontSize="10"/>
                 <TextBlock x:Name="txtAfterCommitmentsBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
+                <TextBlock Text="After Transactional Balance" TextAlignment="Left" TextWrapping="Wrap" Margin=" 5 0 0 0" Foreground="DimGray" FontSize="10"/>
+                <TextBlock x:Name="txtAfterTransactionalBalance" TextWrapping="Wrap" TextAlignment="Left" Margin="20 0 0 0" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
             </StackPanel>
             <TextBox x:Name="transactionBox" Width="100" Margin="0 60 0 0 "/>
             <StackPanel x:Name="BtnStack" Margin=" 0 40 0 0 ">

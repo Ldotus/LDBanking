@@ -14,7 +14,7 @@ namespace Bank.Model
         private DateTime? _dt;
         private string? _transactionType;
        
-        private ObservableCollection<string?> _comboContent { get; set; }
+        private ObservableCollection<string>? _comboContent { get; set; }
 
         public TransactionModel(int id, string? place, decimal amount, DateTime? dt,string? transactionType)
         {
@@ -29,7 +29,7 @@ namespace Bank.Model
 
         public TransactionModel()
         {
-            ComboContent = new ObservableCollection<string?>
+            ComboContent = new ObservableCollection<string>
             {
                 "Food",
                 "Luxury",
@@ -46,7 +46,7 @@ namespace Bank.Model
             get { return _transactionType; }
             set { _transactionType = value; INotifyPropertyChanged(nameof(TransactionType)); }
         }
-        public ObservableCollection<string?> ComboContent
+        public ObservableCollection<string>? ComboContent
         {
             get { return _comboContent; }
             set {   _comboContent = value; INotifyPropertyChanged(nameof(ComboContent)); }
