@@ -31,10 +31,11 @@
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Place}"/>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}"/>
+                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}" Width="88" />
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
-                        <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
+                        <GridViewColumn Header="" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
+                    
                 </ListView.View>
             </ListView>
             <!-- Add Transaction pulls the data-->

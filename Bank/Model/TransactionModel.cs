@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Bank.Model
 {
-    public class TransactionModel : INotifyPropertyChanged
+    public class TransactionModel : UserModel, INotifyPropertyChanged
     {
         private int _id;
         private string? _place;

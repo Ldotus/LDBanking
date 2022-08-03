@@ -15,10 +15,10 @@ namespace Bank
     ///
     public partial class LoggedIn : Window
     {
-        readonly ObservableCollection<TransactionModel> TransactionObservableCollection;
-        private ObservableCollection<TransactionModel> CommitmentObservableCollection;
-        TransactionModel t;
-        UserModel user;
+        readonly private ObservableCollection<TransactionModel> TransactionObservableCollection;
+        readonly private ObservableCollection<TransactionModel> CommitmentObservableCollection;
+        private TransactionModel t;
+        private UserModel user;
         private List<TransactionModel> _commitmentList;
         public LoggedIn()
         {
@@ -31,7 +31,7 @@ namespace Bank
             
             _commitmentList = new List<TransactionModel>();
 
-            DataContext = t;
+             DataContext = t;
 
         }
 
@@ -108,8 +108,9 @@ namespace Bank
                         int id = TransactionObservableCollection.Count;
 
                         t.Dt = DateTimeBox.SelectedDate.Value.Date;
-
-
+                        string datetime = DateTimeBox.SelectedDate.Value.Date.ToString("d");
+                        DateTime datetime2 =  Convert.ToDateTime(datetime);
+                        t.Dt = datetime2;
                         //  string? tt = CategoryComboBox.SelectedItem.ToString();
 
                         TransactionModel newT = new TransactionModel(id, place, t.Amount, t.Dt, t.TransactionType);
@@ -145,8 +146,13 @@ namespace Bank
         }
         private void UpdateTransactionalBalance()
         {
+            /* Checks there is atleast 1 transaction within the 
+             observable collection */ 
           if (TransactionObservableCollection.Count > 0)
             {
+                /*Store the sum of transactions for the balance 
+                 in the account and iterate through the observable
+                collection */
                 decimal sumOfTransactions = 0;
                 foreach (var transaction in TransactionObservableCollection)
                 {
@@ -203,62 +209,6 @@ namespace Bank
                 txtAfterCommitmentsBalance.Text = Convert.ToString(balance);
             }
         }
-      /*  private void addTransactionBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-            t.Place = this.AddTransactionPlaceTxtb.Text;
-
-            string str = this.AddAmountTxtb.Text;
-
-            t.Amount = ChangeToDecimal(str);
-
-
-            string? selectedDate = DateTimeBox.SelectedDate.Value.Date.ToShortDateString();
-
-
-            int id = TransactionObservableCollection.Count;
-
-
-            TransactionModel newT = new TransactionModel(id, t.Place, t.Amount, selectedDate, "TT");
-
-            string? val = t.ValidateTransaction(newT);
-
-            if (newT.Success == true)
-            {
-
-                newT.ValidationMessage = val;
-
-                if (newT.ValidationMessage == "Just Right")
-                {
-                    if (CommitmentCheckBox.IsChecked ?? true)
-                    {
-                        CommitmentObservableCollection.Add(newT);
-
-                        commitmentsListView.ItemsSource = CommitmentObservableCollection;
-
-                    }
-                    else
-                    {
-                        oc.Add(newT);
-                        transactionList.ItemsSource = oc;
-                    }
-
-                }
-
-
-            }
-            else if (newT.Success == false)
-            {
-
-                MessageBox.Show("Transaction Failed, Ensure all fields are filled " + val, "Something Went Wrong");
-
-
-            }
-
-
-
-        }
-      */
         private void tb2_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
