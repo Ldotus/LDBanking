@@ -10,7 +10,13 @@
         Icon="/Mula.jpg" 
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="LoggedIn" Height="580" Width="1100" Background="Ivory" FontSize="16">
+        Title="Ldot's Money Management "
+        Height="580"
+        Width="1100" 
+        Background="Ivory" 
+        FontSize="16" WindowStyle="SingleBorderWindow"
+        
+        >
     <Window.DataContext>
         <local:UserViewModel/>
 
@@ -24,14 +30,14 @@
         </Grid.ColumnDefinitions>
         <!-- Stack Panel for transactions-->
         <StackPanel>
-            <TextBlock  FontSize="16" Padding="0 0 0 5" Background="Aquamarine" TextAlignment="Center">Transactions:</TextBlock >
+            <TextBlock  FontSize="16" Padding="0 0 0 5" Background="MediumSpringGreen" TextAlignment="Center">Transactions:</TextBlock >
 
             <ListView x:Name="transactionList" Height="200">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Place}"/>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}" Width="88" />
+                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}" Width="80" />
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
@@ -71,12 +77,12 @@
         <!-- StackPanel for monthly/yearly breakdowns-->
         <!--**Expenditure will base from transaction and supply monthly/yearly commitments -->
         <StackPanel Grid.Column="1">
-            
-            <TextBlock Background="LawnGreen" FontSize="16" Padding="0 5 0 0 " FontFamily="Arial" TextAlignment="Center"> Commitments:</TextBlock>
+
+            <TextBlock Background="MediumSpringGreen" FontSize="16" Padding="0 0 0 5 " TextAlignment="Center"> Commitments:</TextBlock>
             <ListView x:Name="commitmentsListView" Height="200">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}"/>
+                        <GridViewColumn Header="Date" Width="80" DisplayMemberBinding="{Binding Dt}"/>
                         <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding Place}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Transaction Type" DisplayMemberBinding="{Binding TransactionType}"/>
@@ -84,16 +90,16 @@
                 </ListView.View>
             </ListView>
             <!-- Column headers for Expenditure -->
-            <TextBlock x:Name="expendeture" Padding="0 0 0 0" TextAlignment="Center" Background="Lavender">Expendeture:</TextBlock>
+            <TextBlock x:Name="expendeture" Padding="0 0 0 5" TextAlignment="Center" Background="MediumSpringGreen">Expendeture:</TextBlock>
             <Menu>
-                <MenuItem Header="Weekly" Click="ReorganiseExpendetureWeeklyClick"/>
+                <MenuItem Header="Weekly"  Click="ReorganiseExpendetureWeeklyClick"/>
                 <MenuItem Header="Monthly" Click="ReorganiseExpendetureMonthlyClick"/>
                 <MenuItem Header="Yearly" Click="ReorganiseExpendetureYearlyClick"/>
             </Menu>
             <ListView x:Name="expendetureList" Height="300">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Dt}"/>
+                        <GridViewColumn Header="Date" Width="80" DisplayMemberBinding="{Binding Dt}"/>
                         <GridViewColumn Header="Transaction" DisplayMemberBinding="{Binding TransactionType}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Success" DisplayMemberBinding="{Binding SuccessOrNot}"/>
@@ -105,12 +111,10 @@
         
         <!-- Stack panel for card details-->
         <StackPanel Grid.Column="2">
-            <Border BorderThickness="2" BorderBrush="Black">
-                <TextBlock x:Name="txtName" >PlaceHolder Name</TextBlock>
-            </Border>
-            <Border BorderThickness="2" BorderBrush="Black">
-                <TextBlock x:Name="txtCardNumber" TextAlignment="Center">Card Number</TextBlock>
-            </Border>
+
+            <TextBlock x:Name="txtName" TextAlignment="Center">John Doe</TextBlock>
+            <TextBlock x:Name="txtCardNumber" TextAlignment="Center">**** **** **** 1262</TextBlock>
+            
             <StackPanel >
                 <TextBlock Text="Standard Balance" Padding="0 10 0 0" FontSize="10" Foreground="DimGray" TextAlignment="Center"/>
                 <TextBlock x:Name="txtBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>

@@ -28,10 +28,10 @@ namespace Bank
             TransactionObservableCollection = new ObservableCollection<TransactionModel>();
             CommitmentObservableCollection = new ObservableCollection<TransactionModel>();
 
-            
+
             _commitmentList = new List<TransactionModel>();
 
-             DataContext = t;
+            DataContext = t;
 
         }
 
@@ -42,9 +42,9 @@ namespace Bank
                 if (transactionList.SelectedIndex != -1)
                 {
                     TransactionObservableCollection.RemoveAt(transactionList.SelectedIndex);
-                    
+
                 }
-                
+
             }
         }
 
@@ -109,7 +109,7 @@ namespace Bank
 
                         t.Dt = DateTimeBox.SelectedDate.Value.Date;
                         string datetime = DateTimeBox.SelectedDate.Value.Date.ToString("d");
-                        DateTime datetime2 =  Convert.ToDateTime(datetime);
+                        DateTime datetime2 = Convert.ToDateTime(datetime);
                         t.Dt = datetime2;
                         //  string? tt = CategoryComboBox.SelectedItem.ToString();
 
@@ -120,7 +120,7 @@ namespace Bank
                             CommitmentObservableCollection.Add(newT);
 
                             commitmentsListView.ItemsSource = CommitmentObservableCollection;
-                           // expendetureList.ItemsSource = CommitmentObservableCollection;
+                            // expendetureList.ItemsSource = CommitmentObservableCollection;
                             _commitmentList.Add(newT);
                             UpdateCommitmentBalance();
                         }
@@ -129,7 +129,7 @@ namespace Bank
                             TransactionObservableCollection.Add(newT);
                             transactionList.ItemsSource = TransactionObservableCollection;
                             UpdateTransactionalBalance();
-                           // expendetureList.ItemsSource = TransactionObservableCollection;
+                            // expendetureList.ItemsSource = TransactionObservableCollection;
                         }
                         var output = new ObservableCollection<TransactionModel>(CommitmentObservableCollection.Concat(TransactionObservableCollection));
 
@@ -147,8 +147,8 @@ namespace Bank
         private void UpdateTransactionalBalance()
         {
             /* Checks there is atleast 1 transaction within the 
-             observable collection */ 
-          if (TransactionObservableCollection.Count > 0)
+             observable collection */
+            if (TransactionObservableCollection.Count > 0)
             {
                 /*Store the sum of transactions for the balance 
                  in the account and iterate through the observable
@@ -276,12 +276,19 @@ namespace Bank
 
         private void ReorganiseExpendetureWeeklyClick(object sender, RoutedEventArgs e)
         {
-            
+
             var lastWeekCommitments = CommitmentObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
             var lastWeekTransactions = TransactionObservableCollection.Where(t => t.Dt > DateTime.Now.AddDays(-7)).ToList();
 
             var total = new ObservableCollection<TransactionModel>(lastWeekTransactions.Concat(lastWeekCommitments));
             expendetureList.ItemsSource = lastWeekTransactions;
+
+            MenuItem menuItem = new MenuItem();
+
+            if (menuItem.AreAnyTouchesCaptured == true)
+            {
+                menuItem.Background = Brushes.DarkCyan;
+            }
         }
 
         private void ReorganiseExpendetureMonthlyClick(object sender, RoutedEventArgs e)
@@ -301,7 +308,7 @@ namespace Bank
             var lastYearTransactions = TransactionObservableCollection.Where(t => t.Dt > DateTime.Now.AddMonths(-1)).ToList();
 
             var total = new ObservableCollection<TransactionModel>(lastYearCommitment.Concat(lastYearTransactions));
-            expendetureList.ItemsSource = lastYearTransactions;
+            expendetureList.ItemsSource = total;
         }
     }
 }
