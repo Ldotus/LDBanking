@@ -13,6 +13,8 @@ namespace Bank.Model
         private bool? _Success;
         private DateTime? _dt;
         private string? _transactionType;
+        private UserModel _um;
+        
        
         private ObservableCollection<string>? _comboContent { get; set; }
 
@@ -36,6 +38,7 @@ namespace Bank.Model
                 "Bills",
                 "Unexpected"
             };
+            
         }
 
 
@@ -85,7 +88,11 @@ namespace Bank.Model
             set { _dt = value; INotifyPropertyChanged(nameof(Dt)); }
         }
 
-
+        public UserModel User
+        {
+            get { return _um; }
+            set { _um = value; INotifyPropertyChanged(nameof(User)); }
+        }
 
 
         public string? ValidateTransaction(TransactionModel transaction)

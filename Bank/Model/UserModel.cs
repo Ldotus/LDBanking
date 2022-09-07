@@ -24,6 +24,15 @@ namespace Bank.Model
         {
 
         }
+        public UserModel(string? firstName, string? lastName )
+        {
+            _firstName = firstName;
+            _lastName = lastName;
+        }
+        public override string ToString()
+        {
+            return "John Doe" + "**** **** **** 1265";
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void INotifyPropertyChanged(string propertyName)

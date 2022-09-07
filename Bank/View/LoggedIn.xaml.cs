@@ -20,32 +20,54 @@ namespace Bank
         private TransactionModel t;
         private UserModel user;
         private List<TransactionModel> _commitmentList;
+        private List<UserModel> userModels { get; set; }
+
         public LoggedIn()
         {
             InitializeComponent();
             t = new TransactionModel();
-            user = new UserModel();
+            user = new UserModel("Raj", "Tillen");
             TransactionObservableCollection = new ObservableCollection<TransactionModel>();
             CommitmentObservableCollection = new ObservableCollection<TransactionModel>();
+            List<UserModel> userModels = new List<UserModel>();
 
+            userModels.Add(new UserModel("Raj", "Tillen"));
 
             _commitmentList = new List<TransactionModel>();
 
+     
             DataContext = t;
 
         }
 
         private void deleteTransactionBtn_Click(object sender, RoutedEventArgs e)
         {
+           
             if (TransactionObservableCollection.Count > 0)
             {
                 if (transactionList.SelectedIndex != -1)
                 {
                     TransactionObservableCollection.RemoveAt(transactionList.SelectedIndex);
+                    UpdateTransactionalBalance();
+
+                   
+                }
+            }
+
+
+
+            if (CommitmentObservableCollection.Count > 0)
+            {
+                if (commitmentsListView.SelectedIndex != -1)
+                {
+                    CommitmentObservableCollection.RemoveAt(commitmentsListView.SelectedIndex);
+                    UpdateCommitmentBalance();
 
                 }
-
             }
+
+            
+
         }
 
         public decimal ChangeToDecimal(string stringAmount)
@@ -148,7 +170,7 @@ namespace Bank
         {
             /* Checks there is atleast 1 transaction within the 
              observable collection */
-            if (TransactionObservableCollection.Count > 0)
+            if (TransactionObservableCollection.Count >= 0)
             {
                 /*Store the sum of transactions for the balance 
                  in the account and iterate through the observable
@@ -179,7 +201,7 @@ namespace Bank
         {
 
 
-            if (CommitmentObservableCollection.Count > 0)
+            if (CommitmentObservableCollection.Count >= 0)
             {
                 decimal sumOfCommitments = 0;
 
@@ -246,6 +268,7 @@ namespace Bank
             }
 
         }
+       
         private void withdrawBtnClick(object sender, RoutedEventArgs e)
         {
             string str = this.transactionBox.Text;
@@ -283,12 +306,7 @@ namespace Bank
             var total = new ObservableCollection<TransactionModel>(lastWeekTransactions.Concat(lastWeekCommitments));
             expendetureList.ItemsSource = lastWeekTransactions;
 
-            MenuItem menuItem = new MenuItem();
-
-            if (menuItem.AreAnyTouchesCaptured == true)
-            {
-                menuItem.Background = Brushes.DarkCyan;
-            }
+            
         }
 
         private void ReorganiseExpendetureMonthlyClick(object sender, RoutedEventArgs e)

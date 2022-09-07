@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Ldot's Money Management "
-        Height="580"
+        Height="610"
         Width="1100" 
         Background="Ivory" 
         FontSize="16" WindowStyle="SingleBorderWindow"
@@ -24,7 +24,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="330"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="400 *"/>
         </Grid.ColumnDefinitions>
@@ -32,12 +32,12 @@
         <StackPanel>
             <TextBlock  FontSize="16" Padding="0 0 0 5" Background="MediumSpringGreen" TextAlignment="Center">Transactions:</TextBlock >
 
-            <ListView x:Name="transactionList" Height="200">
+            <ListView x:Name="transactionList" Height="200" Focusable="True">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Place}"/>
-                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Dt}" Width="80" />
+                        <GridViewColumn Header="Date"  Width="80" DisplayMemberBinding="{Binding Dt}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="" DisplayMemberBinding="{Binding SuccessOrNot}"/>
                     </GridView>
@@ -60,15 +60,44 @@
             </StackPanel>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" >
-                    <DatePicker Name="DateTimeBox" IsTodayHighlighted="True" Background="Ivory" Margin="10 0 10 0" Height="25" Width="200"  />
-                    <ComboBox Name="CategoryComboBox"  ItemsSource="{Binding ComboContent}" Margin=" 20 20" SelectedItem="Food"/>
+                    <DatePicker Name="DateTimeBox" IsTodayHighlighted="True" Background="Ivory" Margin="10 0 10 0" Height="28" Width="200"  />
+                    <ComboBox Name="CategoryComboBox"  ItemsSource="{Binding ComboContent}" Margin=" 5 20" SelectedItem="Food" MinWidth="110" MaxWidth="110"/>
                 </StackPanel>
                
                 <CheckBox Name="CommitmentCheckBox"  Content="Commitment" Margin="10 " FontSize="14"  HorizontalAlignment="Left"/>
                 <!--Add and Delete Transaction Buttons-->
-                <StackPanel>
-                    <Button Click="addTransaction" x:Name="addTransactionBtn" >Add Transaction</Button>
-                    <Button Click="deleteTransactionBtn_Click" x:Name="deleteTransactionBtn" Margin="0 20" >Delete Transaction</Button>
+                <StackPanel Orientation="Horizontal">
+                  <Button Content="Add Transaction"
+                          Width=" 150"
+                          HorizontalAlignment="Left" 
+                          Background="GreenYellow"
+                          Height="40" 
+                          Click="addTransaction">
+                      
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="20"/>
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Style>
+                        </Button.Resources>
+                      
+                    </Button>
+                    <Button Content="Delete Transaction"
+                            Width="150" 
+                            HorizontalAlignment="Right" 
+                            Margin="40 0 0 0" 
+                            Background="GreenYellow"
+                            Height="40"
+                            Click="deleteTransactionBtn_Click">
+                        
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="20"/>
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Style>
+                        </Button.Resources>
+                        
+                    </Button>
                 </StackPanel>
                 
             </StackPanel>
@@ -79,7 +108,7 @@
         <StackPanel Grid.Column="1">
 
             <TextBlock Background="MediumSpringGreen" FontSize="16" Padding="0 0 0 5 " TextAlignment="Center"> Commitments:</TextBlock>
-            <ListView x:Name="commitmentsListView" Height="200">
+            <ListView x:Name="commitmentsListView" Height="200" Focusable="True">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date" Width="80" DisplayMemberBinding="{Binding Dt}"/>
@@ -96,7 +125,7 @@
                 <MenuItem Header="Monthly" Click="ReorganiseExpendetureMonthlyClick"/>
                 <MenuItem Header="Yearly" Click="ReorganiseExpendetureYearlyClick"/>
             </Menu>
-            <ListView x:Name="expendetureList" Height="300">
+            <ListView x:Name="expendetureList" Height="300" Focusable="True" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date" Width="80" DisplayMemberBinding="{Binding Dt}"/>
@@ -112,23 +141,58 @@
         <!-- Stack panel for card details-->
         <StackPanel Grid.Column="2">
 
-            <TextBlock x:Name="txtName" TextAlignment="Center">John Doe</TextBlock>
-            <TextBlock x:Name="txtCardNumber" TextAlignment="Center">**** **** **** 1262</TextBlock>
-            
+            <TextBlock x:Name="txtName" TextAlignment="Center" Padding="0 0 0 5" FontSize="16" Background="MediumSpringGreen">John Doe</TextBlock>
+            <TextBlock x:Name="txtCardNumber" TextAlignment="Center" Background="WhiteSmoke" Padding="0 0 0 5" >**** **** **** 1262</TextBlock>
+            <ComboBox Name="cb2" ItemsSource="{Binding User }" >
+                
+            </ComboBox>
             <StackPanel >
                 <TextBlock Text="Standard Balance" Padding="0 10 0 0" FontSize="10" Foreground="DimGray" TextAlignment="Center"/>
                 <TextBlock x:Name="txtBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Focusable="True">
                 <TextBlock Text="After Commitment Balance" TextAlignment="Center" TextWrapping="Wrap" Foreground="DimGray" FontSize="10"/>
                 <TextBlock x:Name="txtAfterCommitmentsBalance" TextWrapping="Wrap" TextAlignment="Center" Padding="0 20" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
-                <TextBlock Text="After Transactional Balance" TextAlignment="Left" TextWrapping="Wrap" Margin=" 5 0 0 0" Foreground="DimGray" FontSize="10"/>
-                <TextBlock x:Name="txtAfterTransactionalBalance" TextWrapping="Wrap" TextAlignment="Left" Margin="20 0 0 0" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
+                <TextBlock Text="After Transactional Balance" TextAlignment="Left"  Margin=" 10 0 0 0" Foreground="DimGray" FontSize="10"/>
+                <TextBlock x:Name="txtAfterTransactionalBalance" TextWrapping="Wrap" TextAlignment="Left" Margin="35 0 0 0" FontSize="30" Text="{Binding Balance}"> 0.00</TextBlock>
             </StackPanel>
             <TextBox x:Name="transactionBox" Width="100" Margin="0 60 0 0 "/>
-            <StackPanel x:Name="BtnStack" Margin=" 0 40 0 0 ">
-                <Button Name="DepositBtn" Content="Deposit" Margin=" 0 20" Click="depositBtnClick"/>
-                <Button Name="WithdrawBtn" Click="withdrawBtnClick" Content="Withdraw"/>
+            
+            <StackPanel x:Name="BtnStack" HorizontalAlignment="Center" Margin="0 40 30 0">
+                <Button Content="Deposit"
+                            Width="200" 
+                            HorizontalAlignment="Right" 
+                            Margin="40 0 0 20" 
+                            Background="GreenYellow"
+                            Height="40"
+                            Click="deleteTransactionBtn_Click"
+                            >
+                    
+
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Style>
+                    </Button.Resources>
+
+                </Button>
+                <Button Content="Withdraw"
+                            Width="200" 
+                            HorizontalAlignment="Right" 
+                            Margin="40 0 0 20" 
+                            Background="GreenYellow"
+                            Height="40"
+                            Click="deleteTransactionBtn_Click">
+
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Style>
+                    </Button.Resources>
+
+                </Button>
             </StackPanel>
         </StackPanel>
        
