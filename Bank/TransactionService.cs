@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bank.Model
+namespace Bank
 {
-    internal class CommitmentsModel
+     class TransactionService
     {
     }
 }

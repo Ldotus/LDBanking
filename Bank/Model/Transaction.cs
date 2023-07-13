@@ -4,19 +4,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bank.Model;
 
 
-namespace Bank
+namespace Bank.Model
 {
-    public class Transaction 
+    public class Transaction
     {
         protected short UID;
         protected string? TransactionType;
         protected double Amount;
         protected DateTime DateTime;
 
-        protected UserModel? User;
+
 
         protected bool SuccessOrNot;
 
@@ -26,15 +25,15 @@ namespace Bank
 
         public Transaction(short uid, string? transactionType, double amount, DateTime dateTime, bool successOrNot)
         {
-           this.UID = uid;
-            this.TransactionType = transactionType;
-            this.Amount = amount;
-            this.DateTime = dateTime;
-            this.SuccessOrNot = successOrNot;
+            UID = uid;
+            TransactionType = transactionType;
+            Amount = amount;
+            DateTime = dateTime;
+            SuccessOrNot = successOrNot;
 
         }
 
-        
+
 
     }
 }

@@ -36,7 +36,7 @@
         <!--Stack Panel set in Column 1, Row 3 for PIN  -->
         <StackPanel Grid.Column="1" Grid.Row="4">
             <Label Content="Pin" FontSize="14" Foreground="AliceBlue" Margin=" 0 5 0 0"/>
-            <TextBox MaxLength="4" x:Name="tb2" Height="40" FontSize="25" Margin=" 0 5 0 0" Text="Enter Pin" LostFocus="tb2_LostFocus" GotFocus="tb2_GotFocus" TextChanged="tb2_TextChanged"></TextBox>
+            <TextBox MaxLength="4" x:Name="tb2" Height="40" FontSize="25" Margin=" 0 5 0 0" Text="Enter Pin" LostFocus="tb2_LostFocus" GotFocus="Tb2_GotFocus" TextChanged="tb2_TextChanged"></TextBox>
         </StackPanel>
         <!--Stack Panel set in Column 1, Row 4 for Buttons-->
         <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
