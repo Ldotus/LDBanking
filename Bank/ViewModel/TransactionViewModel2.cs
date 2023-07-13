@@ -1,6 +1,7 @@
 ﻿using Bank.Model;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,10 +9,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
+using System.Windows.Shapes;
 
 namespace Bank.ViewModel
 {
+    /*ViewModels : The ViewModel prepares the data from the Model to be
+    displayed in the View. For example, it retrieves the player's stats,
+    items, and quest progress from the Model and provides them to the
+    View for rendering.*/
+
+    /*The ViewModel also handles user input and triggers actions in the
+    Model based on that input.For instance, it receives the player's
+    command to attack a monster, validates the action, and updates the
+    Model accordingly.*/
+
+
+    /*Additionally, the ViewModel notifies the View about any changes
+    in the underlying data using mechanisms like data binding or
+    event-driven communication. This enables the View to update its
+    visuals in real-time based on the changes in the Model.*/
+
     public class TransactionViewModel2 : INotifyPropertyChanged
     {
         //TODO: add properties to view model to bind to the data needed in the view i.e. Textboxes etc
